@@ -1,0 +1,122 @@
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+import java.awt.Color;
+
+import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class GuwiPos extends JFrame{
+   
+    GuwiPos(){
+        
+        
+        //Labels
+        //Product
+        JLabel labelProduct = new JLabel();
+        labelProduct.setText("Item Group");
+        labelProduct.setBounds(10,5,100,100);
+        //Item
+        JLabel labelItem = new JLabel();
+        labelItem.setText("Item");
+        labelItem.setBounds(10,55,100,100);
+        //Price
+        JLabel labelPrice = new JLabel();
+        labelPrice.setText("Price");
+        labelPrice.setBounds(10,105,100,100);
+        //Qty
+        JLabel labelQty = new JLabel();
+        labelQty.setText("Quantity");
+        labelQty.setBounds(10,155,100,100);
+        //Total
+        JLabel labelTotal = new JLabel();
+        labelTotal.setText("Total");
+        labelTotal.setBounds(10,205,100,100);
+        
+        //Buttons
+        JButton buttonBasket = new JButton();
+        buttonBasket.setBounds(500,600,300,450);
+        buttonBasket.setText("Add to Basket");
+        
+        JButton buttonPay = new JButton();
+        buttonPay.setText("PAY");
+        
+        
+        JButton buttonCancel = new JButton();
+        buttonCancel.setText("CANCEL");
+        
+        JButton buttonDelete = new JButton();
+        buttonDelete.setText("DELETE");
+        
+        JButton buttonDiscount = new JButton();
+        buttonDiscount.setText("Apply Discount?");        
+        
+        JButton buttonHelp = new JButton();
+        buttonHelp.setText("HELP");
+               
+        //Panels
+        //Left contains item and price
+        JPanel bluePanel = new JPanel();
+	      bluePanel.setBackground(Color.blue);
+	      bluePanel.setBounds(0, 0, 300, 300); //x,y,width,height
+	      bluePanel.setLayout(null);
+        
+        //Right contains product basket
+        JPanel redPanel = new JPanel();
+	      redPanel.setBackground(Color.red);
+	      redPanel.setBounds(300, 0, 600, 300); // x,y,width,length
+	      redPanel.setLayout(null);
+        
+        //Bottom Left contains buttons pay,change,discount
+        JPanel greenPanel = new JPanel();
+	      greenPanel.setBackground(Color.green);
+	      greenPanel.setBounds(0, 300, 300, 450);// x,y,width,length
+	      greenPanel.setLayout(null);
+        
+        //Bottom Right contains total amount 
+        JPanel yellowPanel = new JPanel();
+	      yellowPanel.setBackground(Color.yellow);
+	      yellowPanel.setBounds(0, 300, 900, 450);// x,y,width,length
+	      yellowPanel.setLayout(null);        
+                
+        this.setTitle("Open Betta POS");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(null);
+        this.setSize(900,600);
+        this.setResizable(false);
+        this.setVisible(true);
+        
+        //ADDED COMPONENTS
+        //Blue = Label
+        bluePanel.add(labelProduct);
+        bluePanel.add(labelItem);
+        bluePanel.add(labelPrice);
+        bluePanel.add(labelQty);
+        bluePanel.add(labelTotal);
+        
+        //Green = Buttons
+        greenPanel.add(buttonBasket);
+        greenPanel.add(buttonPay);
+        greenPanel.add(buttonCancel);
+        greenPanel.add(buttonDiscount);
+        greenPanel.add(buttonHelp);
+        greenPanel.add(buttonDelete);
+        
+        //Frame
+        this.add(bluePanel);        
+        this.add(redPanel);
+        this.add(greenPanel);
+        this.add(yellowPanel);
+
+    }
+    
+    /*@Override
+    public class actionPerformed(ActionEvent e){
+
+    }
+ */     
+       
+        }
