@@ -1,18 +1,52 @@
+import javax.swing.*;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GuwiPos extends JFrame{
+/**
+ *
+ * @author kahbg
+ */
+public class GuwiPos extends JFrame implements ActionListener{
+   
+    
+        JButton buttonBasket;
+        JButton buttonHelp;
+        JTextField txtGroup;
    
     GuwiPos(){
         
+        //TextFields
+        JTextField txtGroup = new JTextField();
+        txtGroup.setBounds(130,35,150,40);
+        
+        JTextField txtItem = new JTextField();
+        txtItem.setBounds(130,85,150,40);
+        
+        JTextField txtPrice = new JTextField();
+        txtPrice.setBounds(130,135,150,40);
+        
+        JTextField txtQty = new JTextField();
+        txtQty.setBounds(130,185,150,40);
+        
+        JTextField txtTotal = new JTextField();
+        txtTotal.setBounds(130,235,150,40);
+                
+        JTextField txtTotalAmt = new JTextField();
+        
+        JTextField txtPaid = new JTextField();
+        
+        JTextField txtChange = new JTextField();
+                
         
         //Labels
         //Product
@@ -38,85 +72,107 @@ public class GuwiPos extends JFrame{
         
         //Buttons
         JButton buttonBasket = new JButton();
-        buttonBasket.setBounds(500,600,300,450);
+        buttonBasket.setBounds(0,0,300,50);
         buttonBasket.setText("Add to Basket");
+        buttonBasket.setFocusable(false);
+        buttonBasket.setBorder(BorderFactory.createEtchedBorder());   
+        buttonBasket.addActionListener(this);
+        //buttonBasket.addActionListener(e -> System.out.println("Item Added to Basket!: "+ txtGroup));
         
         JButton buttonPay = new JButton();
         buttonPay.setText("PAY");
-        
+        buttonPay.setBounds(0,50,150,100);
+        buttonPay.setFocusable(false);
+        buttonPay.setBorder(BorderFactory.createEtchedBorder()); 
+        buttonPay.addActionListener(e -> System.out.println("Payment Success"));
         
         JButton buttonCancel = new JButton();
         buttonCancel.setText("CANCEL");
-        
-        JButton buttonDelete = new JButton();
-        buttonDelete.setText("DELETE");
+        buttonCancel.setBounds(0,150,150,100);
+        buttonCancel.setFocusable(false);
+        buttonCancel.setBorder(BorderFactory.createEtchedBorder());
+        buttonCancel.addActionListener(e -> System.out.println("Transaction Cancelled"));
         
         JButton buttonDiscount = new JButton();
-        buttonDiscount.setText("Apply Discount?");        
+        buttonDiscount.setText("Apply Discount?");   
+        buttonDiscount.setBounds(150,50,150,50);
+        buttonDiscount.setFocusable(false);
+        buttonDiscount.setBorder(BorderFactory.createEtchedBorder());
+        buttonDiscount.addActionListener(e -> System.out.println("20% Discount Applied"));
         
         JButton buttonHelp = new JButton();
         buttonHelp.setText("HELP");
-               
+        buttonHelp.setBounds(150,100,150,100);
+        buttonHelp.setFocusable(false);
+        buttonHelp.setBorder(BorderFactory.createEtchedBorder());        
+        
+        JButton buttonDelete = new JButton();
+        buttonDelete.setText("DELETE");
+        buttonDelete.setBounds(150,200,150,50);
+        buttonDelete.setFocusable(false);
+        buttonDelete.setBorder(BorderFactory.createEtchedBorder());
+        buttonDelete.addActionListener(e -> System.out.println("Item Deleted"));
+        
+        
         //Panels
         //Left contains item and price
         JPanel bluePanel = new JPanel();
-	      bluePanel.setBackground(Color.blue);
-	      bluePanel.setBounds(0, 0, 300, 300); //x,y,width,height
-	      bluePanel.setLayout(null);
-        
+	bluePanel.setBackground(Color.blue);
+	bluePanel.setBounds(0, 0, 300, 300); //x,y,width,height
+	bluePanel.setLayout(null);
         //Right contains product basket
         JPanel redPanel = new JPanel();
-	      redPanel.setBackground(Color.red);
-	      redPanel.setBounds(300, 0, 600, 300); // x,y,width,length
-	      redPanel.setLayout(null);
-        
+	redPanel.setBackground(Color.red);
+	redPanel.setBounds(300, 0, 600, 300); // x,y,width,length
+	redPanel.setLayout(null);
         //Bottom Left contains buttons pay,change,discount
         JPanel greenPanel = new JPanel();
-	      greenPanel.setBackground(Color.green);
-	      greenPanel.setBounds(0, 300, 300, 450);// x,y,width,length
-	      greenPanel.setLayout(null);
-        
+	greenPanel.setBackground(Color.green);
+	greenPanel.setBounds(0, 300, 300, 450);// x,y,width,length
+	greenPanel.setLayout(null);
         //Bottom Right contains total amount 
         JPanel yellowPanel = new JPanel();
-	      yellowPanel.setBackground(Color.yellow);
-	      yellowPanel.setBounds(0, 300, 900, 450);// x,y,width,length
-	      yellowPanel.setLayout(null);        
+	yellowPanel.setBackground(Color.yellow);
+	yellowPanel.setBounds(0, 300, 900, 450);// x,y,width,length
+	yellowPanel.setLayout(null);        
                 
         this.setTitle("Open Betta POS");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        this.setSize(900,600);
+        this.setSize(900,590);
         this.setResizable(false);
         this.setVisible(true);
         
-        //ADDED COMPONENTS
-        //Blue = Label
+        //ADDED AWT
+        bluePanel.add(txtQty);
+        bluePanel.add(txtTotal);
+        bluePanel.add(txtItem);
+        bluePanel.add(txtPrice);
+        bluePanel.add(txtGroup);
         bluePanel.add(labelProduct);
         bluePanel.add(labelItem);
         bluePanel.add(labelPrice);
         bluePanel.add(labelQty);
         bluePanel.add(labelTotal);
-        
-        //Green = Buttons
         greenPanel.add(buttonBasket);
         greenPanel.add(buttonPay);
         greenPanel.add(buttonCancel);
         greenPanel.add(buttonDiscount);
         greenPanel.add(buttonHelp);
         greenPanel.add(buttonDelete);
-        
-        //Frame
         this.add(bluePanel);        
         this.add(redPanel);
         this.add(greenPanel);
         this.add(yellowPanel);
 
-    }
+    }    
     
-    /*@Override
-    public class actionPerformed(ActionEvent e){
-
-    }
- */     
-       
+    @Override
+    public void actionPerformed(ActionEvent e ){
+        if(e.getSource()==buttonBasket){            
+            System.out.println("Added Item to Basket: "+txtGroup.getText());
         }
+    }
+   
+       
+}
