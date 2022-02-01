@@ -4,9 +4,13 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 import java.awt.Color;
-import java.awt.Dimension;
+
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import java.awt.event.*;
 import java.awt.event.ActionEvent;
@@ -22,30 +26,41 @@ public class GuwiPos extends JFrame implements ActionListener{
         JButton buttonBasket;
         JButton buttonHelp;
         JTextField txtGroup;
-   
+        JTextField txtItem;
+        JTextField txtQty;
+        JTextField txtTotal;
+        JTextField txtPrice;
+        JComboBox<String> comboGroup;
+        JComboBox<String> comboItem;
+        
+        
+        
     GuwiPos(){
         
-        //TextFields
-        JTextField txtGroup = new JTextField();
-        txtGroup.setBounds(130,35,150,40);
         
-        JTextField txtItem = new JTextField();
-        txtItem.setBounds(130,85,150,40);
+        //ComboBox
+        String[] products = {"Select Item...","Betta Fish","Snails","Supplies","Food"};
+        comboGroup = new JComboBox<String>(products);
+        comboGroup.setBounds(130,35,150,40);
         
-        JTextField txtPrice = new JTextField();
+        comboItem = new JComboBox<String>();
+        comboItem.setBounds(130, 85, 150,40);
+        
+        //TextFields 
+        txtPrice = new JTextField();
         txtPrice.setBounds(130,135,150,40);
         
-        JTextField txtQty = new JTextField();
+        txtQty = new JTextField();
         txtQty.setBounds(130,185,150,40);
         
-        JTextField txtTotal = new JTextField();
+        txtTotal = new JTextField();
         txtTotal.setBounds(130,235,150,40);
                 
-        JTextField txtTotalAmt = new JTextField();
+        //txtTotalAmt = new JTextField(); to code later on 
         
-        JTextField txtPaid = new JTextField();
+        //txtPaid = new JTextField(); to code later on
         
-        JTextField txtChange = new JTextField();
+        //txtChange = new JTextField(); to code later on
                 
         
         //Labels
@@ -70,14 +85,14 @@ public class GuwiPos extends JFrame implements ActionListener{
         labelTotal.setText("Total");
         labelTotal.setBounds(10,205,100,100);
         
-        //Buttons
-        JButton buttonBasket = new JButton();
+        //Buttons        
+        buttonBasket = new JButton();
         buttonBasket.setBounds(0,0,300,50);
         buttonBasket.setText("Add to Basket");
         buttonBasket.setFocusable(false);
         buttonBasket.setBorder(BorderFactory.createEtchedBorder());   
         buttonBasket.addActionListener(this);
-        //buttonBasket.addActionListener(e -> System.out.println("Item Added to Basket!: "+ txtGroup));
+        
         
         JButton buttonPay = new JButton();
         buttonPay.setText("PAY");
@@ -146,9 +161,9 @@ public class GuwiPos extends JFrame implements ActionListener{
         //ADDED AWT
         bluePanel.add(txtQty);
         bluePanel.add(txtTotal);
-        bluePanel.add(txtItem);
         bluePanel.add(txtPrice);
-        bluePanel.add(txtGroup);
+        bluePanel.add(comboItem);
+        bluePanel.add(comboGroup);
         bluePanel.add(labelProduct);
         bluePanel.add(labelItem);
         bluePanel.add(labelPrice);
@@ -170,9 +185,64 @@ public class GuwiPos extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e ){
         if(e.getSource()==buttonBasket){            
-            System.out.println("Added Item to Basket: "+txtGroup.getText());
+            System.out.println("Added Item to Basket: "+ comboGroup.getSelectedItem()+ "\n" + comboItem.getSelectedItem());
         }
     }
    
-       
+    //This is not working   
+    public void comboItemItemStateChanged(java.awt.event.ItemEvent evt) {  
+        ArrayList<String> arrayItem = new ArrayList<>();
+        Iterator<String> iter;
+        if(comboGroup.getSelectedItem().equals("Betta Fish")){
+            comboItem.removeAllItems();
+            arrayItem.add("Plakat");
+            arrayItem.add("Halfmoon");
+            arrayItem.add("Crown Tail");
+            arrayItem.add("Double Tail");
+            iter = arrayItem.iterator();
+            while(iter.hasNext()){
+                comboItem.addItem(iter.next());
+            }
+        }
+        else if(comboGroup.getSelectedItem().equals("Snails")){
+            comboItem.removeAllItems();
+            arrayItem.add("Apple Horn");
+            arrayItem.add("RamsHorn");
+            arrayItem.add("Pond Snail");
+            arrayItem.add("Assassin Snail");
+            iter = arrayItem.iterator();
+            while(iter.hasNext()){
+                comboItem.addItem(iter.next());
+            }
+        }
+        else if(comboGroup.getSelectedItem().equals("Supplies")){
+            comboItem.removeAllItems();
+            arrayItem.add("Small Fine Net");
+            arrayItem.add("Large Fine Net");
+            arrayItem.add("Flaring Mirror");
+            arrayItem.add("Aquarium Hose");
+            iter = arrayItem.iterator();
+            while(iter.hasNext()){
+                comboItem.addItem(iter.next());
+            }
+        }
+        else if(comboGroup.getSelectedItem().equals("Food")){
+            comboItem.removeAllItems();
+            arrayItem.add("Tubifex");
+            arrayItem.add("Daphnia");
+            arrayItem.add("Optimum Pellets");
+            iter = arrayItem.iterator();
+            while(iter.hasNext()){
+                comboItem.addItem(iter.next());
+            }
+        }
+        else if(comboGroup.getSelectedItem().equals("Select Item...")){
+            comboItem.removeAllItems();
+            arrayItem.add("Select Item...");
+            iter = arrayItem.iterator();
+            while(iter.hasNext()){
+                comboItem.addItem(iter.next());
+            }
+        }
+    }
 }
