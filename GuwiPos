@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import javax.swing.*;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -5,23 +6,18 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-
 import java.awt.Color;
-
-
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
-/**
- *
- * @author kahbg
- */
 public class GuwiPos extends JFrame implements ActionListener{
-   
+        private JComboBox<String> comboGroup;
+        private JComboBox<String> comboItem;
+        private Hashtable subItems = new Hashtable();
     
         JButton buttonBasket;
         JButton buttonHelp;
@@ -30,25 +26,48 @@ public class GuwiPos extends JFrame implements ActionListener{
         JTextField txtQty;
         JTextField txtTotal;
         JTextField txtPrice;
-        JComboBox<String> comboGroup;
-        JComboBox<String> comboItem;
-        
-        
-        
+                  
     GuwiPos(){
         
-        
-        //ComboBox
-        String[] products = {"Select Item...","Betta Fish","Snails","Supplies","Food"};
-        comboGroup = new JComboBox<String>(products);
+        JPanel panel = new JPanel(null); // Sets layout manager to null which is a bad idea!
+        String[] items = {"Select Item","Betta Fish","Snail","Supplies","Food"};
+        comboGroup = new JComboBox<String>(items);
+        comboGroup.addActionListener(this);
         comboGroup.setBounds(130,35,150,40);
+
+        comboItem = new JComboBox<>();
+        comboItem.setPrototypeDisplayValue("XXXXXXXXXXX");
+        comboItem.setBounds(130,85,150,40);
         
-        comboItem = new JComboBox<String>();
-        comboItem.setBounds(130, 85, 150,40);
+        String[] subItems1 = {"Select Betta","Plakat","Halfmoon","Double Tail","Crown Tail"};
+        subItems.put(items[1], subItems1);
         
-        //TextFields 
+        String[] subItems2 = {"Select Snail","Pond Snail","Ramshorn","Apple Snail","Assassin Snail"};
+        subItems.put(items[2], subItems2);
+                
+        String[] subItems3 = {"Select Supply","Small Fine Net","Large Fine Net","Flaring Mirror","Aquarium Hose (1meter)"};
+        subItems.put(items[3], subItems3);
+        
+        String[] subItems4 = {"Select Food","Daphnia","Tubifex","Mosquito Larvae","Optimum Pellets"};
+        subItems.put(items[4], subItems4);
+        comboGroup.setSelectedIndex(1);      
+        
+        //TextFields - attempt to add price to current subItems String. Still figuring it out to work.
+        /*int[] items1price = {0,150,350,200,200};
+        subItems.put(items[1], items1price);
+        int[] items2price = {0,15,25,80,120};
+        subItems.put(items[2], items2price);
+        int[] items3price = {0,50,80,25,15};
+        subItems.put(items[3], items3price);
+        int[] items4price = {0,50,100,50,50};
+        subItems.put(items[4], items4price);
+        comboGroup.setSelectedIndex(1);
+        */
         txtPrice = new JTextField();
         txtPrice.setBounds(130,135,150,40);
+        
+        
+        
         
         txtQty = new JTextField();
         txtQty.setBounds(130,185,150,40);
@@ -92,8 +111,10 @@ public class GuwiPos extends JFrame implements ActionListener{
         buttonBasket.setFocusable(false);
         buttonBasket.setBorder(BorderFactory.createEtchedBorder());   
         buttonBasket.addActionListener(this);
-        
-        
+        buttonBasket
+            .addActionListener(e -> System.out.println("Added Item to Basket: "
+                + comboGroup.getSelectedItem() + "\n" + comboItem.getSelectedItem() + "\n" + txtPrice.getText()));
+                
         JButton buttonPay = new JButton();
         buttonPay.setText("PAY");
         buttonPay.setBounds(0,50,150,100);
@@ -126,8 +147,7 @@ public class GuwiPos extends JFrame implements ActionListener{
         buttonDelete.setBounds(150,200,150,50);
         buttonDelete.setFocusable(false);
         buttonDelete.setBorder(BorderFactory.createEtchedBorder());
-        buttonDelete.addActionListener(e -> System.out.println("Item Deleted"));
-        
+        buttonDelete.addActionListener(e -> System.out.println("Item Deleted"));        
         
         //Panels
         //Left contains item and price
@@ -183,66 +203,22 @@ public class GuwiPos extends JFrame implements ActionListener{
     }    
     
     @Override
-    public void actionPerformed(ActionEvent e ){
-        if(e.getSource()==buttonBasket){            
-            System.out.println("Added Item to Basket: "+ comboGroup.getSelectedItem()+ "\n" + comboItem.getSelectedItem());
+    public void actionPerformed(ActionEvent e ){        
+        String item = (String)comboGroup.getSelectedItem();
+        Object o = subItems.get(item);
+        
+        if(o==null){
+            comboItem.setModel(new DefaultComboBoxModel<>());
         }
-    }
+        else{
+            comboItem.setModel(new DefaultComboBoxModel<>((String[])o));
+        }
+        }
    
-    //This is not working   
-    public void comboItemItemStateChanged(java.awt.event.ItemEvent evt) {  
-        ArrayList<String> arrayItem = new ArrayList<>();
-        Iterator<String> iter;
-        if(comboGroup.getSelectedItem().equals("Betta Fish")){
-            comboItem.removeAllItems();
-            arrayItem.add("Plakat");
-            arrayItem.add("Halfmoon");
-            arrayItem.add("Crown Tail");
-            arrayItem.add("Double Tail");
-            iter = arrayItem.iterator();
-            while(iter.hasNext()){
-                comboItem.addItem(iter.next());
-            }
-        }
-        else if(comboGroup.getSelectedItem().equals("Snails")){
-            comboItem.removeAllItems();
-            arrayItem.add("Apple Horn");
-            arrayItem.add("RamsHorn");
-            arrayItem.add("Pond Snail");
-            arrayItem.add("Assassin Snail");
-            iter = arrayItem.iterator();
-            while(iter.hasNext()){
-                comboItem.addItem(iter.next());
-            }
-        }
-        else if(comboGroup.getSelectedItem().equals("Supplies")){
-            comboItem.removeAllItems();
-            arrayItem.add("Small Fine Net");
-            arrayItem.add("Large Fine Net");
-            arrayItem.add("Flaring Mirror");
-            arrayItem.add("Aquarium Hose");
-            iter = arrayItem.iterator();
-            while(iter.hasNext()){
-                comboItem.addItem(iter.next());
-            }
-        }
-        else if(comboGroup.getSelectedItem().equals("Food")){
-            comboItem.removeAllItems();
-            arrayItem.add("Tubifex");
-            arrayItem.add("Daphnia");
-            arrayItem.add("Optimum Pellets");
-            iter = arrayItem.iterator();
-            while(iter.hasNext()){
-                comboItem.addItem(iter.next());
-            }
-        }
-        else if(comboGroup.getSelectedItem().equals("Select Item...")){
-            comboItem.removeAllItems();
-            arrayItem.add("Select Item...");
-            iter = arrayItem.iterator();
-            while(iter.hasNext()){
-                comboItem.addItem(iter.next());
-            }
-        }
     }
-}
+    
+
+
+
+    
+
